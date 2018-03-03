@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,400,500,700,900" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <title>Игра клик-клик</title>
+  <link href="./css/index.css" rel="stylesheet"></head>
+  <body>
+    <div class="wrapper">
+      <div class="modal_bg"></div>
+      <div class="container__modal container__modal__end modal_hide container__modal__end__db">
+        <div class="modal__inner">
+          <h1 class="modal__inner__head">Время истекло</h1>
+          <p class="modal__inner__text" id="result_game">Ваш результат:</p>
+          <input class="modal__inner__button" id="restart_game" type="button" value="Начать заново">
+        </div>
+      </div>
+      <div class="container__modal container__modal__start">
+        <div class="modal__inner">
+          <h1 class="modal__inner__head">Клик-клик</h1>
+          <p class="modal__inner__text">Суть игры заключается в последовательном нажатии на цифры, и так до конца, пока вы не дойдете до последней цифры.</p>
+          <input class="modal__inner__button" id="start_game" type="button" value="Начать игру">
+        </div>
+      </div>
+      <div class="container">
+        <header class="header__container">
+          <p class="game__name">Найди число</p>
+        </header>
+        <div class="container__work">
+          <div class="info_panel__container">
+            <div class="timer">Timer: 0</div>
+            <div class="score">Score: 0</div>
+          </div>
+          <div class="container__work__inner">
+            <div class="item__row">
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+            </div>
+            <div class="item__row">
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+            </div>
+            <div class="item__row">
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+            </div>
+            <div class="item__row">
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+            </div>
+            <div class="item__row">
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+              <div class="item__num"> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script type="text/javascript" src="js/common.js"></script><script type="text/javascript" src="js/index.js"></script></body>
+</html>

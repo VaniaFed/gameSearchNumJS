@@ -1,0 +1,228 @@
+@import "_help/_var.sass";
+
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, p, a, input {
+	margin: 0;
+	padding: 0;
+	font-family: 'roboto';
+}
+
+input {
+	border: none;
+	outline: none;
+	border: none;
+}
+
+.clearfix,
+.clearfix::before,
+.clearfix::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.click_off {
+	pointer-events: none;
+}
+
+.hide {
+	display: none;
+}
+
+.hide_element {
+	animation: hide_element .8s forwards;
+}
+
+.start_element {
+	animation: start_element .8s forwards;
+}
+
+@keyframes hide_element {
+	from {
+		transform: scale(1);
+	}
+	40% {
+		transform: scale(1.1);
+	}
+	to {
+		transform: scale(0);
+	}
+}
+
+@keyframes start_element {
+	from {
+		transform: scale(0);
+	}
+	60% {
+		transform: scale(1.1);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+body, html {
+	height: 100%;
+	width: 100%;
+	font: 16px/1.5 'roboto', 'arial', 'sans-serif';
+	background: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper {
+	background: url('img/memphis-colorful.png');
+}
+
+.container {
+	max-width: 1140px;
+	width: 100%;
+	margin: 0 auto;
+	background: #fff;
+	box-shadow: 0 0 16px 2px rgba(75, 75, 75, .1);
+	position: relative;
+}
+
+.modal_bg {
+	background: #333;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: .4;
+	z-index: 1;
+	transition: all .9s;
+}
+
+.header__container {
+	background: #fff;
+	height: 80px;
+	position: relative;
+	width: 100%;
+	background: $accent;
+}
+
+.game__name {
+	color: #fff;
+	line-height: 80px;
+	font-size: 28px;
+	padding-left: 45px;
+	text-shadow: 1px 3px 8px rgba(75,75,75,.3);
+	font-weight: 400;
+}
+
+.accent_bg {
+	background: $accent;
+}
+
+.container__work {
+	margin-top: 200px;
+	text-align: center;
+}
+.container__work__inner {
+	display: inline-block;
+	padding: 16px;
+	background: #333;
+	border-radius:  0 0 6px 6px;
+	font-size: 0;
+}
+
+.info_panel__container {
+	margin: 0 auto;
+	position: relative;
+}
+
+.timer, .score {
+	padding: 12px 16px;
+	display: inline-block;
+}
+
+.timer {
+	text-align: left;
+}
+
+.score {
+	text-align: right;
+}
+
+.item__num {
+	display: inline-block;
+	cursor: pointer;
+	width: 50px;
+	height: 50px;
+	background: #fff;
+	color: #333;
+	font-size: 26px;
+	margin: 2px;
+	line-height: 50px;
+	font-weight: bold;
+	box-shadow: 2px 2px 12px 0px rgba(71, 212, 255, .2);
+}
+
+.item__num::selection {
+   background: transparent;
+}
+
+.item__num::-moz-selection {
+   background: transparent;
+}
+
+.container__modal {
+	width: 100%;
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	top: 200px;
+	margin: 0 auto;
+	max-width: 550px;
+	transition: opacity .4s;
+}
+
+.modal__inner {
+	background: #fff;
+	text-align: center;
+	padding: 60px 40px;
+	box-shadow: 2px 2px 18px 4px rgba(175, 175, 175, .4);
+}
+
+.container__modal__end__db {
+	opacity: 0;
+	transition: all .4s;
+}
+
+.modal__inner__head {
+	color: #333;
+	font-size: 30px;
+  font-weight: 700;
+}
+
+.modal__inner__text {
+	text-align: center;
+	color: #333;
+	margin: 0 auto;
+	margin-top: 20px;
+	font-weight: 300;
+	font-size: 18px;
+}
+
+.modal__inner__button {
+	margin-top: 18px;
+	padding: 12px 24px;
+	font-size: 18px;
+	background: none;
+	border: 5px solid $accent;
+	transition: all .3s;
+	cursor: pointer;
+	font-weight: 500;
+	color: #333;
+}
+
+.modal__inner__button:hover {
+	background: $accent;
+	color: #fff;
+}
