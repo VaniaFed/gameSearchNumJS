@@ -96,6 +96,7 @@ body, html {
 	opacity: .4;
 	z-index: 1;
 	transition: all .9s;
+	display: none;
 }
 
 .header__container {
@@ -136,9 +137,20 @@ body, html {
 	position: relative;
 }
 
-.timer, .score {
+.timer, .score, .current_num {
 	padding: 12px 16px;
 	display: inline-block;
+}
+
+.current_num {
+	width: 135px;
+	height: 75px;
+	background: #fff;
+	color: #333;
+	font-size: 26px;
+	line-height: 75px;
+	font-weight: bold;
+	box-shadow: 2px 2px 12px 0px rgba(71, 212, 255, .2);
 }
 
 .timer {
@@ -152,15 +164,15 @@ body, html {
 .item__num {
 	display: inline-block;
 	cursor: pointer;
-	width: 50px;
-	height: 50px;
+	width: 135px;
+	height: 75px;
 	background: #fff;
 	color: #333;
 	font-size: 26px;
-	margin: 2px;
-	line-height: 50px;
+	line-height: 75px;
 	font-weight: bold;
 	box-shadow: 2px 2px 12px 0px rgba(71, 212, 255, .2);
+	margin: 15px;
 }
 
 .item__num::selection {
@@ -181,6 +193,7 @@ body, html {
 	margin: 0 auto;
 	max-width: 550px;
 	transition: opacity .4s;
+	display: none;
 }
 
 .modal__inner {
