@@ -29,7 +29,7 @@ window.onload = function () {
 	};
 
 	var createItem = function (inner, className, parent) {
-		var elementItem = document.createElement('button');
+		var elementItem = document.createElement('div');
 		elementItem.classList.add(className);
 		elementItem.innerHTML = inner;
 		parent.appendChild(elementItem);
@@ -41,6 +41,13 @@ window.onload = function () {
 
 			mainNumberEl.innerHTML = mainNumber;
 		}
+
+		var clearTable = function () {
+			var container = document.querySelector('.container__work__inner');
+			container.innerHTML = '';
+		}
+
+		clearTable ();
 
 		drowMainNum (mainNumber);
 
@@ -59,32 +66,60 @@ window.onload = function () {
 	};
 
 	var checkCorrectly = function () {
-		console.log(mainNumber, this.innerHTML);
+		var scoreEl = document.querySelector('.score');
 		if (this.textContent == mainNumber) {
-			alert('Success');
+			successfullyPressed ();
+		} else {
+			failedPressed ();
+		}
+		this.removeEventListener('click', checkCorrectly);
+		followTheTable ();
+	};
+
+	var increaseScore = function (scoreEl) {
+		scoreVal += 100;
+		scoreEl.innerHTML = scoreVal;
+	}
+
+	var successfullyPressed = function () {
+		numberOfCalls++;
+		nextLevel ();
+	};
+
+	var failedPressed = function () {
+		nextLevel ();
+	};
+
+	var nextLevel = function () {
+		sizeTable (tableInfo, numberOfCalls);
+		fillArray (randomNumbers, tableInfo);
+
+		mainNumber = randomNumbers[Math.round(0 + Math.random() * (tableInfo.countColumns * tableInfo.countLines - 1))];
+
+		drow (tableInfo, randomNumbers, mainNumber);
+	};
+
+	// функция-костыль
+	var followTheTable = function () {
+		var items = document.getElementsByClassName('item__num');
+
+		for (var i = 0; i < items.length; i++) {
+			items[i].addEventListener('click', checkCorrectly);
 		}
 	};
 
 	var randomNumbers = [],
 			mainNumber,
-			numberOfCalls = 9,
-			items = document.getElementsByClassName('item__num'),
+			numberOfCalls = 1,
+			scoreVal = 0,
 			tableInfo = {
 				countColumns: 0,
 				countLines: 0
 			};
 
+	nextLevel ();
 
-	sizeTable (tableInfo, numberOfCalls);
-	fillArray (randomNumbers, tableInfo);
-
-	mainNumber = randomNumbers[Math.round(0 + Math.random() * (tableInfo.countColumns * tableInfo.countLines - 1))];
-
-	drow (tableInfo, randomNumbers, mainNumber);
-
-	for (var i = 0; i < items.length; i++) {
-		items[i].addEventListener('click', checkCorrectly);
-	}
+	followTheTable ();
 
 
 
