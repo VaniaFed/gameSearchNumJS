@@ -18,7 +18,7 @@ html
         .container__modal.container__modal__start
           .modal__inner
             h1.modal__inner__head Клик-клик
-            p.modal__inner__text Суть игры заключается в последовательном нажатии на цифры, и так до конца, пока вы не дойдете до последней цифры.
+            p.modal__inner__text Суть игры: вам необходимо найти и нажать на число, показанное в верхней части контейнера.
             input.modal__inner__button#start_game(type="button" value="Начать игру")
         .container
           header.header__container
@@ -27,5 +27,7 @@ html
             .info_panel__container
               .timer Timer: 0
               .score Score: 0
-              .current_num 100
+              .container__current_num.clearfix
+                .text__description Найдите указанное число:
+                .current_num 100
             .container__work__inner

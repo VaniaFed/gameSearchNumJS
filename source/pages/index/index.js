@@ -5,26 +5,26 @@ import "./index.scss";
 
 window.onload = function () {
 
-	var fillArray = function (arr, tableInfo) {
+	var fillArray = function (arr, sizeInfo) {
 		var randNum = function (num) {
 			arr[i] = Math.round(1 + Math.random() * (9999));
-		}
+		};
 
-		for (var i = tableInfo.countLines * tableInfo.countColumns - 1; i >= 0; i--) {
+		for (var i = sizeInfo.countLines * sizeInfo.countColumns - 1; i >= 0; i--) {
 			randNum(arr[i]);
 		}
 	};
 
-	var sizeTable = function (tableInfo, numCalls) {
+	var sizeTable = function (sizeInfo, numCalls) {
 		if (numCalls < 4) {
-			tableInfo.countColumns = 3;
-			tableInfo.countLines = 2;
+			sizeInfo.countColumns = 3;
+			sizeInfo.countLines = 2;
 		} else if (numCalls < 6) {
-			tableInfo.countColumns = 4;
-			tableInfo.countLines = 3;
+			sizeInfo.countColumns = 4;
+			sizeInfo.countLines = 3;
 		} else {
-			tableInfo.countColumns = 4;
-			tableInfo.countLines = 4;
+			sizeInfo.countColumns = 4;
+			sizeInfo.countLines = 4;
 		}
 	};
 
@@ -35,7 +35,7 @@ window.onload = function () {
 		parent.appendChild(elementItem);
 	}
 
-	var drow = function (tableInfo, arrayNums, mainNumber) {
+	var drow = function (sizeInfo, arrayNums, mainNumber) {
 		var drowMainNum  = function (mainNumber) {
 			var mainNumberEl = document.querySelector('.current_num');
 
@@ -52,14 +52,14 @@ window.onload = function () {
 		drowMainNum (mainNumber);
 
 		var currentPositionArray = 0;
-		for (var i = 0; i < tableInfo.countLines; i++) {
+		for (var i = 0; i < sizeInfo.countLines; i++) {
 			var container = document.getElementsByClassName('container__work__inner'),
 					elementRow = document.createElement('div');
 
 			elementRow.classList.add('item__row');
 			container[0].appendChild(elementRow);
 
-			for (var j = 0; j < tableInfo.countColumns; j++) {
+			for (var j = 0; j < sizeInfo.countColumns; j++) {
 				createItem(arrayNums[currentPositionArray++], 'item__num', elementRow);
 			}
 		}
@@ -68,9 +68,9 @@ window.onload = function () {
 	var checkCorrectly = function () {
 		var scoreEl = document.querySelector('.score');
 		if (this.textContent == mainNumber) {
-			successfullyPressed ();
+			successfullyPressed (scoreEl);
 		} else {
-			failedPressed ();
+			failedPressed (scoreEl);
 		}
 		this.removeEventListener('click', checkCorrectly);
 		followTheTable ();
@@ -78,25 +78,38 @@ window.onload = function () {
 
 	var increaseScore = function (scoreEl) {
 		scoreVal += 100;
-		scoreEl.innerHTML = scoreVal;
+		scoreEl.innerHTML = 'Score: ' + scoreVal;
 	}
 
-	var successfullyPressed = function () {
+	var reduceScore = function (scoreEl) {
+		if (scoreVal >= 100) {
+			scoreVal -= 100;
+		} else {
+			scoreVal = 0;
+		}
+
+		scoreEl.innerHTML = 'Score: ' + scoreVal;
+	}
+
+	var successfullyPressed = function (scoreEl) {
 		numberOfCalls++;
+		increaseScore (scoreEl);
 		nextLevel ();
 	};
 
-	var failedPressed = function () {
+	var failedPressed = function (scoreEl) {
+		numberOfCalls > 1 ? numberOfCalls-- : numberOfCalls;
+		reduceScore (scoreEl);
 		nextLevel ();
 	};
 
 	var nextLevel = function () {
-		sizeTable (tableInfo, numberOfCalls);
-		fillArray (randomNumbers, tableInfo);
+		sizeTable (sizeInfo, numberOfCalls);
+		fillArray (randomNumbers, sizeInfo);
 
-		mainNumber = randomNumbers[Math.round(0 + Math.random() * (tableInfo.countColumns * tableInfo.countLines - 1))];
+		mainNumber = randomNumbers[Math.round(0 + Math.random() * (sizeInfo.countColumns * sizeInfo.countLines - 1))];
 
-		drow (tableInfo, randomNumbers, mainNumber);
+		drow (sizeInfo, randomNumbers, mainNumber);
 	};
 
 	// функция-костыль
@@ -108,11 +121,47 @@ window.onload = function () {
 		}
 	};
 
+	var timer = function (start) {
+		var currentIteration = currentIteration || start;
+
+		return function (f) {
+			var callback = f || function () {};
+
+			if (currentIteration === 0) {
+				callback ();
+				currentIteration = start;
+			}
+			return currentIteration--;
+		};
+	};
+
+	var gameOver = function () {
+		var resetNumbers = function () {
+			scoreVal = 0;
+			document.querySelector('.score').innerHTML = 'Score: ' + scoreVal;
+			numberOfCalls = 1;
+			sizeInfo.countColumns = 0;
+			sizeInfo.countLines = 0;
+		};
+
+		//modalFinishShow ();
+		resetNumbers ();
+	};
+
+	var followTheTimer = function () {
+		var counter = timer(45),
+				timerEl = document.querySelector('.timer');
+
+		setInterval(function () {
+			timerEl.innerHTML = 'Timer: ' + counter (gameOver);
+		}, 1000);
+	};
+
 	var randomNumbers = [],
 			mainNumber,
 			numberOfCalls = 1,
 			scoreVal = 0,
-			tableInfo = {
+			sizeInfo = {
 				countColumns: 0,
 				countLines: 0
 			};
@@ -121,7 +170,7 @@ window.onload = function () {
 
 	followTheTable ();
 
-
+	followTheTimer ();
 
 
 
