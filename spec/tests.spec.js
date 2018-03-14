@@ -1,34 +1,15 @@
-import sum from '../lib/sum';
-import mult from '../lib/mult';
-import pow from '../lib/pow';
+import fibonacciNumbers from '../lib/fibonacciNumbers';
 import { expect, assert } from 'chai';
 
-describe("sum", () => {
-    context("when all arguments are valid numbers", () => {
-        it("sum all arguments (3 and 3) equal (===) 6", () => {
-            expect(sum(3, 3)).to.equal(6);
+describe("fibbanachiNumbers", () => {
+    let arrayNumbers = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946];
+    for (let i = 0; i < arrayNumbers.length; i++) {
+        it("fibbanachiNumbers with arguments (1, 0, ${i}) equal (===) ${i}", () => {
+            expect(fibonacciNumbers(0, 1, arrayNumbers[i])).to.equal(arrayNumbers[i]);
         });
-    });
-});
+    }
 
-describe("mult", () => {
-    context("when all arguments are valid numbers", () => {
-        it("mult all arguments (5, 5) equal (===) 25", () => {
-            assert(mult(5, 5) === 25);
-        });
-        it("mult all arguments (2, 5, 10) equal (===) 100", () => {
-            assert(mult(2, 5, 10) === 100);
-        });
-    });
-});
-
-describe("pow", () => {
-    context("when all arguments are valid numbers", () => {
-        it("exponentiation n (2) to x (3) range equal (===) 8", () => {
-            assert(!isNaN(pow(-2, 3)));
-        });
-        it("exponentiation n (2) to x (3) range equal (===) 8", () => {
-            assert(!isNaN(pow(33, -2)));
-        });
+    it("fibbanachiNumbers with arguments (1, 0, ${i}) equal (===) ${i}", () => {
+        expect(fibonacciNumbers(0, 1, 17711)).to.equal(arrayNumbers[17711]);
     });
 });
