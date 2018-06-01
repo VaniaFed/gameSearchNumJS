@@ -4,237 +4,203 @@ import "./index.scss";
 
 window.onload = function () {
 
-    var randNum = function (num) {
-		arr[i] = Math.round(1 + Math.random() * (9999));
-	};
+    const randNum = function (from, to) {
+        return Math.round(from + Math.random() * to);
+    };
 
-	var fillArray = function (arr, sizeInfo) {
-		for (var i = sizeInfo.countLines * sizeInfo.countColumns - 1; i >= 0; i--) {
-			randNum(arr[i]);
-		}
-	};
+    const fillArray = function (arr, sizeTable) {
+        for (let i = sizeTable.countLines * sizeTable.countColumns - 1; i >= 0; i--) {
+            if (currentLevel <= 2) {
+                arr[i] = randNum(10, 99);
+            }
+            else if (currentLevel <= 4) {
+                arr[i] = randNum(100, 999);
+            } else {
+                arr[i] = randNum(1000, 9999);
+            }
+        }
+    };
 
-	var sizeTable = function (sizeInfo, numCalls) {
-		if (numCalls < 4) {
-			sizeInfo.countColumns = 3;
-			sizeInfo.countLines = 2;
-		} else if (numCalls < 6) {
-			sizeInfo.countColumns = 4;
-			sizeInfo.countLines = 3;
-		} else {
-			sizeInfo.countColumns = 4;
-			sizeInfo.countLines = 4;
-		}
-	};
+    const changeStyles = function (el) {
+        el.forEach(function (item, i, arr) {
+            console.log(currentLevel);
+            if (currentLevel <= 3) {
+                item.style.fontSize = '40px';
+                item.style.padding = '10px 0';
+            }
+            else if (currentLevel === 4) {
+                item.style.fontSize = '30px';
+                item.style.padding = '12px 0';
+            }
+            else if (currentLevel === 5) {
+                item.style.fontSize = '30px';
+                item.style.padding = '15px 0';
 
-	var createItem = function (inner, className, parent) {
-		var elementItem = document.createElement('div');
-		elementItem.classList.add(className);
-		elementItem.innerHTML = inner;
-		parent.appendChild(elementItem);
-	}
+            } else {
+                item.style.fontSize = '26px';
+                item.style.padding = '12px 0';
+            }
+        });
+    };
+    const resizeTable = function (sizeTable, level) {
+        if (level < 4) {
+            sizeTable.countColumns = 3;
+            sizeTable.countLines = 2;
+        } else if (level < 6) {
+            sizeTable.countColumns = 4;
+            sizeTable.countLines = 3;
+        } else {
+            sizeTable.countColumns = 4;
+            sizeTable.countLines = 4;
+        }
+    };
 
-	var drow = function (sizeInfo, arrayNums, mainNumber) {
-		var drowMainNum  = function (mainNumber) {
-			var mainNumberEl = document.querySelector('.current_num');
+    const createItem = function (inner, className, parent) {
+        let el = document.createElement('div');
+        el.classList.add(className);
+        el.innerHTML = inner;
+        parent.appendChild(el);
+    };
 
-			mainNumberEl.innerHTML = mainNumber;
-		}
+    const draw = function (sizeTable, arrayNums, mainNumber) {
+        const drowMainNum = function (mainNumber) {
+            let mainNumberEl = document.querySelector('.current_num');
 
-		var clearTable = function () {
-			var container = document.querySelector('.container__work__inner');
-			container.innerHTML = '';
-		}
+            mainNumberEl.innerHTML = mainNumber;
+        };
 
-		clearTable ();
+        const clearTable = function () {
+            let container = document.querySelector('.container__work__inner');
+            container.innerHTML = '';
+        };
 
-		drowMainNum (mainNumber);
+        clearTable();
 
-		var currentPositionArray = 0;
-		for (var i = 0; i < sizeInfo.countLines; i++) {
-			var container = document.getElementsByClassName('container__work__inner'),
-					elementRow = document.createElement('div');
+        drowMainNum(mainNumber);
 
-			elementRow.classList.add('item__row');
-			container[0].appendChild(elementRow);
+        let currentPositionArray = 0;
+        for (let i = 0; i < sizeTable.countLines; i++) {
+            let container = document.getElementsByClassName('container__work__inner'),
+                elementRow = document.createElement('div');
 
-			for (var j = 0; j < sizeInfo.countColumns; j++) {
-				createItem(arrayNums[currentPositionArray++], 'item__num', elementRow);
-			}
-		}
-	};
+            elementRow.classList.add('item__row');
+            container[0].appendChild(elementRow);
 
-	var checkCorrectly = function () {
-		var scoreEl = document.querySelector('.score');
-		if (this.textContent == mainNumber) {
-			successfullyPressed (scoreEl);
-		} else {
-			failedPressed (scoreEl);
-		}
-		this.removeEventListener('click', checkCorrectly);
-		followTheTable ();
-	};
+            for (let j = 0; j < sizeTable.countColumns; j++) {
+                createItem(arrayNums[currentPositionArray++], 'item__num', elementRow);
+            }
+        }
+    };
 
-	var increaseScore = function (scoreEl) {
-		scoreVal += 100;
-		scoreEl.innerHTML = 'Score: ' + scoreVal;
-	}
+    const checkCorrectly = function () {
+        let scoreEl = document.querySelector('.score');
+        if (+this.textContent === mainNumber) {
+            successfullyPressed(scoreEl);
+        } else {
+            failedPressed(scoreEl);
+        }
+        this.removeEventListener('click', checkCorrectly);
+        followTheTable();
+    };
 
-	var reduceScore = function (scoreEl) {
-		if (scoreVal >= 100) {
-			scoreVal -= 100;
-		} else {
-			scoreVal = 0;
-		}
+    const increaseScore = function (scoreEl) {
+        scoreVal += 100;
+        scoreEl.innerHTML = 'Score: ' + scoreVal;
+    };
 
-		scoreEl.innerHTML = 'Score: ' + scoreVal;
-	}
+    const reduceScore = function (scoreEl) {
+        if (scoreVal >= 100) {
+            scoreVal -= 100;
+        } else {
+            scoreVal = 0;
+        }
 
-	var successfullyPressed = function (scoreEl) {
-		numberOfCalls++;
-		increaseScore (scoreEl);
-		nextLevel ();
-	};
+        scoreEl.innerHTML = 'Score: ' + scoreVal;
+    };
 
-	var failedPressed = function (scoreEl) {
-		numberOfCalls > 1 ? numberOfCalls-- : numberOfCalls;
-		reduceScore (scoreEl);
-		nextLevel ();
-	};
+    const successfullyPressed = function (scoreEl) {
+        currentLevel++;
+        increaseScore(scoreEl);
+        nextLevel();
+    };
 
-	var nextLevel = function () {
-		sizeTable (sizeInfo, numberOfCalls);
-		fillArray (randomNumbers, sizeInfo);
+    const failedPressed = function (scoreEl) {
+        currentLevel > 1 ? currentLevel-- : currentLevel;
+        reduceScore(scoreEl);
+        nextLevel();
+    };
 
-		mainNumber = randomNumbers[Math.round(0 + Math.random() * (sizeInfo.countColumns * sizeInfo.countLines - 1))];
+    const nextLevel = function () {
+        resizeTable(sizeTable, currentLevel);
+        fillArray(randomNumbers, sizeTable);
 
-		drow (sizeInfo, randomNumbers, mainNumber);
-	};
 
-	// функция-костыль
-	var followTheTable = function () {
-		var items = document.getElementsByClassName('item__num');
+        mainNumber = randomNumbers[Math.round(Math.random() * (sizeTable.countColumns * sizeTable.countLines - 1))];
 
-		for (var i = 0; i < items.length; i++) {
-			items[i].addEventListener('click', checkCorrectly);
-		}
-	};
+        draw(sizeTable, randomNumbers, mainNumber);
 
-	var timer = function (start) {
-		var currentIteration = currentIteration || start;
+        let items = document.querySelectorAll('.item__num');
+        changeStyles(items);
+    };
 
-		return function (f) {
-			var callback = f || function () {};
+    // функция-костыль
+    const followTheTable = function () {
+        let items = document.getElementsByClassName('item__num');
 
-			if (currentIteration === 0) {
-				callback ();
-				currentIteration = start;
-			}
-			return currentIteration--;
-		};
-	};
+        for (let i = 0; i < items.length; i++) {
+            items[i].addEventListener('click', checkCorrectly);
+        }
+    };
 
-	var gameOver = function () {
-		var resetNumbers = function () {
-			scoreVal = 0;
-			document.querySelector('.score').innerHTML = 'Score: ' + scoreVal;
-			numberOfCalls = 1;
-			sizeInfo.countColumns = 0;
-			sizeInfo.countLines = 0;
-		};
+    const timer = function (start) {
+        let currentIteration = typeof(start) === undefined ? 0 : start;
 
-		//modalFinishShow ();
-		resetNumbers ();
-	};
+        return function (f) {
+            let callback = f || function () {
+            };
 
-	var followTheTimer = function () {
-		var counter = timer(45),
-				timerEl = document.querySelector('.timer');
+            if (currentIteration === 0) {
+                callback();
+                currentIteration = start;
+            }
+            return --currentIteration;
+        };
+    };
 
-		setInterval(function () {
-			timerEl.innerHTML = 'Timer: ' + counter (gameOver);
-		}, 1000);
-	};
+    const gameOver = function () {
+        let resetNumbers = function () {
+            scoreVal = 0;
+            document.querySelector('.score').innerHTML = 'Score: ' + scoreVal;
+            currentLevel = 1;
+            sizeTable.countColumns = 0;
+            sizeTable.countLines = 0;
+        };
 
-	var randomNumbers = [],
-			mainNumber,
-			numberOfCalls = 1,
-			scoreVal = 0,
-			sizeInfo = {
-				countColumns: 0,
-				countLines: 0
-			};
+        //modalFinishShow ();
+        resetNumbers();
+    };
 
-	nextLevel ();
+    const followTheTimer = function () {
+        let counter = timer(45),
+            timerEl = document.querySelector('.timer');
 
-	followTheTable ();
+        setInterval(function () {
+            timerEl.innerHTML = 'Timer: ' + counter(gameOver);
+        }, 1000);
+    };
 
-	followTheTimer ();
+    let randomNumbers = [],
+        mainNumber,
+        currentLevel = 1,
+        scoreVal = 0,
+        sizeTable = {
+            countColumns: 0,
+            countLines: 0
+        };
 
-	// var min = function () {
-	// 	var minNum = arguments[0];
-	// 	for (var i = 1; i < arguments.length; i++) {
-	// 		if (arguments[i] < minNum) {
-	// 			minNum = arguments[i];
-	// 		}
-	// 	}
-	// 	return minNum;
-	// }
-  //
-	// var max = function () {
-	// 	var maxNum = arguments[0];
-	// 	for (var i = 1; i < arguments.length; i++) {
-	// 		if (arguments[i] > maxNum) {
-	// 			maxNum = arguments[i];
-	// 		}
-	// 	}
-	// 	return maxNum;
-	// }
-  //
-	// var isEven = function (num) {
-	// 	if (num === 0) {
-	// 		return true;
-	// 	} else if (num === 1) {
-	// 		return false;
-	// 	} else if (num > 0) {
-	// 		return isEven(num - 2);
-	// 	} else {
-	// 		return isEven(num + 2);
-	// 	}
-	// }
-  //
-	// var name = 'Hello, world';
-  //
-	// var countsBs = function (someStr, symbol) {
-	// 	var counts = 0;
-  //
-	// 	for (var i = 0; i < someStr.length; i++) {
-	// 		if (someStr[i].charAt(symbol) === symbol) {
-	// 			counts++;
-	// 		}
-	// 	}
-  //
-	// 	return counts;
-	// }
-  //
-	// var sum = function (arr, index) {
-	// 	var currnetNum = arr[index];
-  //
-	// 	if (index === arr.length) {
-	// 		return 0;
-	// 	}
-  //
-	// 	return currnetNum += sum(arr, ++index);
-	// }
-  //
-	// var range = function (num1, num2) {
-	// 	var arr = [],
-	// 			index = 0;
-	// 	for (var i = num1; i <= num2; i++) {
-	// 		arr[index++] = i;
-	// 	}
-	// 	return arr;
-	// }
-  //
-	// console.log( sum( range(0, 10, 2), 0 ) );
-}
+    nextLevel();
+
+    followTheTable();
+
+    followTheTimer();
+};
