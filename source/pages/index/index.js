@@ -1,15 +1,14 @@
-
 import "./normalize.css";
 import "./index.scss";
 'use strict';
 
 window.onload = function () {
 
-	var fillArray = function (arr, sizeInfo) {
-		var randNum = function (num) {
-			arr[i] = Math.round(1 + Math.random() * (9999));
-		};
+    var randNum = function (num) {
+		arr[i] = Math.round(1 + Math.random() * (9999));
+	};
 
+	var fillArray = function (arr, sizeInfo) {
 		for (var i = sizeInfo.countLines * sizeInfo.countColumns - 1; i >= 0; i--) {
 			randNum(arr[i]);
 		}
@@ -171,8 +170,6 @@ window.onload = function () {
 	followTheTable ();
 
 	followTheTimer ();
-
-
 
 	// var min = function () {
 	// 	var minNum = arguments[0];
