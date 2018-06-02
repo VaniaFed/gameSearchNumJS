@@ -3,11 +3,11 @@ import "./index.scss";
 'use strict';
 
 window.onload = function () {
-
+    //hello
     const randNum = function (min, max) {
-        let rand = min - 0.5 + Math.random() * (max - min + 1);
-        rand = Math.round(rand);
-        return rand;
+        let randNum = min - 0.5 + Math.random() * (max - min + 1);
+        randNum = Math.round(randNum);
+        return randNum;
     };
 
     const fillArray = function (arr, sizeTable) {
@@ -24,7 +24,7 @@ window.onload = function () {
     };
 
     const changeStyles = function (el) {
-        el.forEach(function (item) {
+        el.forEach(function (item, i, arr) {
             if (currentLevel <= 3) {
                 item.style.fontSize = '40px';
                 item.style.padding = '10px 0';
@@ -63,7 +63,7 @@ window.onload = function () {
             '#333'
         ];
         let el = document.querySelectorAll('.item__num');
-        el.forEach(function(item) {
+        el.forEach(function(item, i, el) {
             let currentAction = randNum(1, 6);
             switch (currentAction) {
                 //only scale
@@ -85,6 +85,7 @@ window.onload = function () {
                     item.style.color = '#fff';
                     break;
                 }
+                default: break;
             }
         });
     };
