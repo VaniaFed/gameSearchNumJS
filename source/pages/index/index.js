@@ -5,7 +5,7 @@ import "./index.scss";
 window.onload = function () {
 
     const randNum = function (min, max) {
-        let rand = min - 0.5 + Math.random() * (max - min + 1)
+        let rand = min - 0.5 + Math.random() * (max - min + 1);
         rand = Math.round(rand);
         return rand;
     };
@@ -24,8 +24,7 @@ window.onload = function () {
     };
 
     const changeStyles = function (el) {
-        el.forEach(function (item, i, arr) {
-            console.log(currentLevel);
+        el.forEach(function (item) {
             if (currentLevel <= 3) {
                 item.style.fontSize = '40px';
                 item.style.padding = '10px 0';
@@ -46,20 +45,46 @@ window.onload = function () {
     };
 
     const selectAction = function () {
+        const animationContent = [
+            'scale_element .5s infinite alternate ease-in-out',
+            'color_element_blue .5s infinite alternate ease-in-out',
+            'color_element_purple .5s infinite alternate ease-in-out',
+            'color_element_green .5s infinite alternate ease-in-out',
+            'color_element_black .5s infinite alternate ease-in-out',
+            'scale_element .5s infinite alternate ease-in-out',
+            'scale_element .5s infinite alternate ease-in-out',
+            'scale_element .5s infinite alternate ease-in-out',
+            'scale_element .5s infinite alternate ease-in-out'
+        ],
+        colors = [
+            '#2196F3',
+            '#009688',
+            '#673AB7',
+            '#333'
+        ];
         let el = document.querySelectorAll('.item__num');
-        el.forEach(function(item, i, el) {
-            let currentAction = randNum(1, 10);
+        el.forEach(function(item) {
+            let currentAction = randNum(1, 6);
             switch (currentAction) {
-                case 1, 11: break;
-                case 2: item.style.animation = 'scale_element .5s infinite alternate ease-in-out'; break;
-                case 3: item.style.animation = 'color_element_blue .5s infinite alternate ease-in-out'; break;
-                case 4: item.style.animation = 'color_element_purple .5s infinite alternate ease-in-out'; break;
-                case 5: item.style.animation = 'color_element_green .5s infinite alternate ease-in-out'; break;
-                case 6: item.style.animation = 'color_element_black .5s infinite alternate ease-in-out'; break;
-                case 7: item.style.animation = 'color_element_blue .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
-                case 8: item.style.animation = 'color_element_purple.5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
-                case 9: item.style.animation = 'color_element_green .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
-                case 10: item.style.animation = 'color_element_black .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
+                //only scale
+                case 1: {
+                    item.style.animation = animationContent[0];
+                    break;
+                }
+                case 2: {
+                    let numAnimation = randNum(1, 4);
+                    item.style.animation = animationContent[numAnimation];
+                    break;
+                }
+                case 3: {
+                    let numAnimation = randNum(5, 8);
+                    item.style.animation = animationContent[numAnimation];
+
+                    let numColor = randNum(0, 3);
+                    item.style.background = colors[numColor];
+                    item.style.color = '#fff';
+                    break;
+                }
             }
         });
     };
