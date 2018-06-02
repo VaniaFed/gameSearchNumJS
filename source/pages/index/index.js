@@ -4,8 +4,10 @@ import "./index.scss";
 
 window.onload = function () {
 
-    const randNum = function (from, to) {
-        return Math.round(from + Math.random() * to);
+    const randNum = function (min, max) {
+        let rand = min - 0.5 + Math.random() * (max - min + 1)
+        rand = Math.round(rand);
+        return rand;
     };
 
     const fillArray = function (arr, sizeTable) {
@@ -42,6 +44,26 @@ window.onload = function () {
             }
         });
     };
+
+    const selectAction = function () {
+        let el = document.querySelectorAll('.item__num');
+        el.forEach(function(item, i, el) {
+            let currentAction = randNum(1, 10);
+            switch (currentAction) {
+                case 1, 11: break;
+                case 2: item.style.animation = 'scale_element .5s infinite alternate ease-in-out'; break;
+                case 3: item.style.animation = 'color_element_blue .5s infinite alternate ease-in-out'; break;
+                case 4: item.style.animation = 'color_element_purple .5s infinite alternate ease-in-out'; break;
+                case 5: item.style.animation = 'color_element_green .5s infinite alternate ease-in-out'; break;
+                case 6: item.style.animation = 'color_element_black .5s infinite alternate ease-in-out'; break;
+                case 7: item.style.animation = 'color_element_blue .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
+                case 8: item.style.animation = 'color_element_purple.5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
+                case 9: item.style.animation = 'color_element_green .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
+                case 10: item.style.animation = 'color_element_black .5s infinite alternate ease-in-out, scale_element .5s infinite alternate ease-in-out'; break;
+            }
+        });
+    };
+
     const resizeTable = function (sizeTable, level) {
         if (level < 4) {
             sizeTable.countColumns = 3;
@@ -141,6 +163,7 @@ window.onload = function () {
 
         let items = document.querySelectorAll('.item__num');
         changeStyles(items);
+        selectAction();
     };
 
     // функция-костыль
