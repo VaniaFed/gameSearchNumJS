@@ -1,0 +1,242 @@
+@import "_help/_var.sass"
+
+*
+	box-sizing: border-box
+
+h1, h2, h3, h4, p, a, input
+	margin: 0
+	padding: 0
+
+input
+	border: none
+	outline: none
+
+.clearfix,
+.clearfix::before,
+.clearfix::after
+	content: ''
+	display: block
+	clear: both
+
+.click_off
+	pointer-events: none
+
+.hide
+	display: none
+
+@keyframes scale_element
+	from
+		transform: scale(1)
+	to
+		transform: scale(0.4)
+
+@keyframes color_element_blue 
+	from 
+		background: #fff
+		color: #333
+	to
+		color: #eee
+		background: #2196F3
+
+@keyframes rotate_element
+	from
+		transform: rotate(30deg)
+	to
+		transform: rotate(-30deg)
+
+@keyframes color_element_purple 
+	from 
+		background: #fff
+		color: #333
+	to
+		color: #eee
+		background: #673AB7
+
+@keyframes color_element_green
+	from 
+		background: #fff
+		color: #333
+	to
+		color: #eee
+		background: #009688
+	
+@keyframes color_element_black
+	from 
+		background: #fff
+		color: #333
+	to
+		color: #fff
+		background: #333
+
+
+body, html
+	height: 100%
+	width: 100%
+	font: 16px/1.5 'roboto', 'arial', 'sans-serif'
+	background: #f9f9f9
+	margin: 0
+	padding: 0
+
+.wrapper 
+	background: url('img/memphis-colorful.png')
+
+.container 
+	max-width: 1140px
+	width: 100%
+	min-height: 100vh
+	margin: 0 auto
+	background: #fff
+	box-shadow: 0 0 16px 2px rgba(75, 75, 75, .1)
+	position: relative
+
+.modal_bg 
+	background: #333
+	position: absolute
+	top: 0
+	right: 0
+	bottom: 0
+	left: 0
+	opacity: .4
+	z-index: 1
+	transition: all .9s
+	display: none
+
+.header__container
+	background: #fff
+	height: 80px
+	position: relative
+	width: 100%
+	background: $accent
+
+.game__name 
+  color: #fff
+  line-height: 80px
+  font-size: 28px
+  padding-left: 45px
+  text-shadow: 1px 3px 8px rgba(75, 75, 75, .3)
+  font-weight: 400
+
+.accent_bg
+  background: $accent
+
+.container__work 
+  margin-top: 80px
+  text-align: center
+
+.container__work__inner
+  display: -webkit-flex
+  display: -ms-flex
+  display: flex
+  flex: 1 0 auto
+  flex-flow: row wrap
+  justify-content: space-around
+  padding: 16px
+  background: #eee
+  border-radius:  0 0 6px 6px
+  font-size: 0
+
+.container__work__inner, .container__current_num
+	width: 600px
+	margin: 0 auto
+
+.container__current_num 
+	padding: 16px 26px
+	box-shadow: 0px 4px 20px 3px rgba(50, 50, 50, .4)
+	border-bottom: 2px solid rgba(150, 150, 150, .2)
+
+.text__description
+	float: left
+	line-height: 75px
+
+.current_num
+	color: #333
+	font-size: 42px
+	font-weight: 900
+	float: right
+	line-height: 75px
+
+.timer, .score
+	padding: 12px 16px
+	display: inline-block
+
+.timer 
+	text-align: left
+
+.score
+	text-align: right
+
+.item__row
+	display: -webkit-box
+	display: -ms-flexbox
+	display: flex
+	-webkit-box-pack: justify
+	-ms-flex-pack: justify
+	justify-content: space-between
+	-webkit-box-align: center
+	-ms-flex-align: center
+	align-items: center
+	width: 100%
+
+.item__num
+	cursor: pointer
+	width: 30%
+	background: #fff
+	color: #333
+	font-size: 45px
+	font-weight: 900
+	box-shadow: 2px 2px 12px 0px rgba(71, 212, 255, .2)
+	margin: 15px
+
+.item__num::selection
+   background: transparent
+
+.item__num::-moz-selection 
+   background: transparent
+
+.container__modal
+	width: 100%
+	position: absolute
+	z-index: 1
+	left: 0
+	right: 0
+	top: 200px
+	margin: 0 auto
+	max-width: 550px
+	transition: opacity .4s
+	display: none
+
+.modal__inner
+	background: #fff
+	text-align: center
+	padding: 60px 40px
+	box-shadow: 2px 2px 18px 4px rgba(175, 175, 175, .4)
+
+.container__modal__end__db
+	opacity: 0
+	transition: all .4s
+.modal__inner__head
+	color: #333
+	font-size: 30px
+
+.modal__inner__text 
+	text-align: center
+	color: #333
+	margin: 0 auto
+	margin-top: 20px
+	font-weight: 300
+	font-size: 18px
+
+.modal__inner__button
+	margin-top: 18px
+	padding: 12px 24px
+	font-size: 18px
+	background: none
+	border: 5px solid $accent
+	transition: all .3s
+	cursor: pointer
+	font-weight: 500
+	color: #333
+
+.modal__inner__button:hover
+	background: $accent
+	color: #fff

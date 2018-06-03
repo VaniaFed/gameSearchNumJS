@@ -1,0 +1,35 @@
+doctype html
+html
+    head
+        meta(charset = 'utf-8')
+        link(href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,400,500,700,900" rel="stylesheet")
+        script(src='index.js')
+        link(href='css/index.css' rel='stylesheet')
+        meta(name='viewport', content="initial-scale=1.0, width=device-width")
+        title Игра найди не число
+        
+    body
+      .wrapper
+        .modal_bg
+        .container__modal.container__modal__end.modal_hide.container__modal__end__db
+          .modal__inner
+            h1.modal__inner__head Время не истекло
+            p.modal__inner__text#result__cont_game Ваш результат:
+            input.modal__inner__button#restart_game(type="button" value="Начать заново")
+            
+        .container__modal.container__modal__start
+          .modal__inner
+            h1.modal__inner__head Клик-клик
+            p.modal__inner__text Суть игры: вам необходимо найти и нажать на число, показанное в верхней части контейнера.
+            input.modal__inner__button#start_game(type="button" value="Начать игру")
+        .container.content__container
+          header.header__container
+            p.game__name Найди число
+          .container__work
+            .info_panel__container
+              .timer Timer: 0
+              .score Score: 0
+              .container__current_num.clearfix
+                .text__description Найдите указанное число:
+                .current_num 100
+            .container__work__inner

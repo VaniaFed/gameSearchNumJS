@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,400,500,700,900" rel="stylesheet">
+    <script src="index.js"></script>
+    <link href="css/index.css" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <title>Игра найди не число</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="modal_bg"></div>
+      <div class="container__modal container__modal__end modal_hide container__modal__end__db">
+        <div class="modal__inner">
+          <h1 class="modal__inner__head">Время не истекло</h1>
+          <p class="modal__inner__text" id="result__cont_game">Ваш результат:</p>
+          <input class="modal__inner__button" id="restart_game" type="button" value="Начать заново">
+        </div>
+      </div>
+      <div class="container__modal container__modal__start">
+        <div class="modal__inner">
+          <h1 class="modal__inner__head">Клик-клик</h1>
+          <p class="modal__inner__text">Суть игры: вам необходимо найти и нажать на число, показанное в верхней части контейнера.</p>
+          <input class="modal__inner__button" id="start_game" type="button" value="Начать игру">
+        </div>
+      </div>
+      <div class="container content__container">
+        <header class="header__container">
+          <p class="game__name">Найди число</p>
+        </header>
+        <div class="container__work">
+          <div class="info_panel__container">
+            <div class="timer">Timer: 0</div>
+            <div class="score">Score: 0</div>
+            <div class="container__current_num clearfix">
+              <div class="text__description">Найдите указанное число:</div>
+              <div class="current_num">100</div>
+            </div>
+          </div>
+          <div class="container__work__inner"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,62 +1,139 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const merge = require('webpack-merge');
-const pug = require('./webpack/pug');
-const devserver = require('./webpack/devserver');
-const sass = require('./webpack/sass');
-const css = require('./webpack/css');
-const extractCSS = require('./webpack/css.extract');
-const uglifyJS = require('./webpack/js.uglify');
-const images = require('./webpack/images');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const fs = require('fs')
 
-const PATHS = {
-    source: path.join(__dirname, 'source'),
-    build: path.join(__dirname, 'build')
-};
+function generateHtmlPlugins(templateDir) {
+    const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
+    return templateFiles.map(item => {
+        const parts = item.split('.');
+        const name = parts[0];
+        const extension = parts[1];
+        return new HtmlWebpackPlugin({
+            filename: `${name}.html`,
+            template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
+            inject: false,
+        })
+    })
+}
 
-const common = merge([
-    {
-        entry: {
-            'index': PATHS.source + '/pages/index/index.js'
-        },
-        output: {
-            path: PATHS.build,
-            filename: 'js/[name].js'
-        },
-        plugins: [
-            new HtmlWebpackPlugin({
-                filename: 'index.html',
-                chunks: ['index', 'common'],
-                template: PATHS.source + '/pages/index/index.pug'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: 'common'
-            }),
-            new webpack.ProvidePlugin({
-                $: 'jquery',
-                jQuery: 'jquery'
-            })
+const htmlPlugins = generateHtmlPlugins('./src/html/views');
+
+const conf = {
+    entry: [
+        './src/js/index.js',
+        './src/sass/index.sass',
+    ],
+    output: {
+        filename: 'index.js',
+    },
+    devServer: {
+        overlay: true
+    },
+    module: {
+        rules: [
+            {
+                test: '/\.js$/',
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['env']
+                        }
+                    },
+                ],
+                exclude: '/node_modules/'
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {name: 'img/[name].[ext]'}
+                    }
+                ]
+            },
+            {
+                test: /\.(sass|scss)$/,
+                include: path.resolve(__dirname, 'src/sass'),
+                use: ExtractTextPlugin.extract({
+                    use: [{
+                        loader: "css-loader",
+                        options: {
+                            sourceMap: true,
+                            minimize: true,
+                            url: false
+                        }
+                    },
+                    {
+                        loader: "resolve-url-loader"
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            sourceMap: true
+                        }
+                    }]
+                })
+            },
+            {
+                test: /\.css$/,
+                loader: 'css-loader',
+            },
+            // {
+            //     test: /\.html$/,
+            //     include: path.resolve(__dirname, 'src/html/includes'),
+            //     use: ['raw-loader']
+            // },
+            {
+                test: /\.pug$/,
+                loader: 'pug-loader',
+                options: {
+                    pretty: true
+                }
+            }
         ]
     },
-    pug(),
-    images()
-]);
+    plugins: [
+        new HtmlWebpackPlugin({
+            inject: false,
+            hash: true,
+            //template: './src/index.html',
+            template: path.join(__dirname,'src') + '/index.pug',
+        }),
+        new ExtractTextPlugin({
+            filename: './css/index.css',
+            allChunks: true,
+        }),
+        new CopyWebpackPlugin(
+        [
+            {
+                from: './src/fonts',
+                to: './fonts'
+            },
+            {
+                from: './src/favicon',
+                to: './favicon'
+            },
+            {
+                from: './src/img',
+                to: './img'
+            },
+            {
+                from: './src/json',
+                to: './json'
+            },
+        ]),
+    ].concat(htmlPlugins),
+};
 
-module.exports = function(env) {
-    if (env === 'production'){
-        return merge([
-            common,
-            extractCSS(),
-            uglifyJS()
-        ]);
-    }
-    if (env === 'development'){
-        return merge([
-            common,
-            devserver(),
-            sass(),
-            css()
-        ])
-    }
+module.exports = (env, options) => {
+    let production = options.mode === 'production';
+
+    conf.devtool = production
+                 ? 'source-map'
+                 : 'eval-sourcemap';
+
+    return conf;
 };
