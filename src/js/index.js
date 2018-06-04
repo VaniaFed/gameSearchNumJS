@@ -31,7 +31,6 @@ window.onload = function () {
 
     const changeStyles = function (el) {
         el.forEach(function (item, i, arr) {
-            console.log(currentLevel);
             if (currentLevel <= 3) {
                 item.style.fontSize = '40px';
                 item.style.padding = '10px 0';
@@ -236,12 +235,12 @@ window.onload = function () {
         };
     };
 
-    const modalFinishShow = function() {
-        //document.
+    const showElement = function(el) {
+        el.classList.remove('hidden');
     };
 
     const gameOver = function () {
-        let resetNumbers = function () {
+        const resetNumbers = function () {
             scoreVal = 0;
             document.querySelector('.score').innerHTML = 'Score: 0';
             currentLevel = 1;
@@ -249,29 +248,27 @@ window.onload = function () {
             sizeTable.countLines = 0;
         };
 
+        const reloadGame = function() {
+            hideElement(container_modal);
+            hideElement(container_bg);
+            resetNumbers();
+            nextLevel();
+
+            // // продолжаем следить за нажатиями по элементам
+            followTheTable();
+            this.removeEventListener('click', reloadGame);
+        };
 
 
-        modalFinishShow ();
-        
-        resetNumbers();
-        
-        resizeTable(sizeTable, currentLevel);
-        
-        fillArray(randomNumbers, sizeTable);
+        let container_modal = document.querySelector('.container__modal__end'),
+            container_bg = document.querySelector('.modal_bg');
 
-        mainNumber = randomNumbers[Math.round(Math.random() * (sizeTable.countColumns * sizeTable.countLines - 1))];
+        showElement(container_modal);
+        showElement(container_bg);
 
-        draw(sizeTable, randomNumbers, mainNumber);
+        let modalEndBtn = document.querySelector('#restart_game');
+        modalEndBtn.addEventListener('click', reloadGame);
 
-        let items = document.querySelectorAll('.item__num');
-        changeStyles(items);
-        
-        randBgContainer();
-        
-        randomAnimation();
-        
-        // продолжаем следить за нажатиями по элементам
-        followTheTable();
     };
 
     const followTheTimer = function () {
@@ -286,10 +283,7 @@ window.onload = function () {
     };
 
     const hideElement = function(el) {
-        el.style.opacity = 0;
-        el.addEventListener('transitionend', function () {
-            el.style.display = 'none';
-        });
+        el.classList.add('hidden');
     };
     const startGame = function() {
         let modal_container = document.querySelector('.container__modal__start'),
@@ -297,6 +291,12 @@ window.onload = function () {
 
         hideElement(modal_bg);
         hideElement(modal_container);
+
+        nextLevel();
+        followTheTable();
+        followTheTimer();
+
+        this.removeEventListener('click', startGame);
     };
 
     let randomNumbers = [],
@@ -310,12 +310,7 @@ window.onload = function () {
 
     let btn_start = document.querySelector('#start_game');
 
-    btn_start.addEventListener('click', startGame);
-
-
     nextLevel();
 
-    followTheTable();
-
-    followTheTimer();
+    btn_start.addEventListener('click', startGame);
 };
