@@ -4,16 +4,18 @@
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,400,500,700,900" rel="stylesheet">
     <script src="index.js"></script>
+    <!--script(src='jquery.magnific-popup.min.js')-->
+    <link href="css/normalize.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <meta name="viewport" content="initial-scale=1.0, width=device-width">
-    <title>Игра найди не число</title>
+    <title>Игра найди число</title>
   </head>
   <body>
     <div class="wrapper">
       <div class="modal_bg"></div>
-      <div class="container__modal container__modal__end modal_hide container__modal__end__db">
+      <div class="container__modal container__modal__end hidden">
         <div class="modal__inner">
-          <h1 class="modal__inner__head">Время не истекло</h1>
+          <h1 class="modal__inner__head">Время истекло</h1>
           <p class="modal__inner__text" id="result__cont_game">Ваш результат:</p>
           <input class="modal__inner__button" id="restart_game" type="button" value="Начать заново">
         </div>

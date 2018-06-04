@@ -1,4 +1,3 @@
-import $ from 'jquery';
 'use strict';
 
 window.onload = function () {
@@ -220,17 +219,9 @@ window.onload = function () {
         }
     };
 
-    const timer = function (start) {
-        let currentIteration = typeof(start) === undefined ? 0 : start;
-
+    const timer = function (start = 0) {
+        let currentIteration = start;
         return function (f) {
-            let callback = f || function () {
-            };
-
-            if (currentIteration === 0) {
-                callback();
-                currentIteration = start;
-            }
             return --currentIteration;
         };
     };
@@ -256,6 +247,7 @@ window.onload = function () {
 
             // // продолжаем следить за нажатиями по элементам
             followTheTable();
+            followTheTimer();
             this.removeEventListener('click', reloadGame);
         };
 
@@ -266,20 +258,30 @@ window.onload = function () {
         showElement(container_modal);
         showElement(container_bg);
 
-        let modalEndBtn = document.querySelector('#restart_game');
-        modalEndBtn.addEventListener('click', reloadGame);
+        let modalEndBtn = document.querySelector('#restart_game'),
+            modalScore = document.querySelector('#result__cont_game');
 
+        modalScore.innerHTML = 'Ваш результат: ' + scoreVal;
+        modalEndBtn.addEventListener('click', reloadGame);
     };
 
     const followTheTimer = function () {
         let startTime = 45,
             counter = timer(startTime),
+            currentTime,
             timerEl = document.querySelector('.timer');
 
         timerEl.innerHTML = 'Timer: ' + startTime;
-        setInterval(function () {
-            timerEl.innerHTML = 'Timer: ' + counter(gameOver);
-        }, 100);
+
+        let timeInterval = setInterval(function () {
+            currentTime = counter();
+            timerEl.innerHTML = 'Timer: ' + currentTime;
+            if (currentTime <= 0) {
+                clearInterval(timeInterval);
+                counter = timer(startTime);
+                gameOver();
+            }
+        }, 1000);
     };
 
     const hideElement = function(el) {
