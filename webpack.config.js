@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const fs = require('fs')
+const fs = require('fs');
 
 function generateHtmlPlugins(templateDir) {
     const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
@@ -123,6 +123,10 @@ const conf = {
             {
                 from: './src/json',
                 to: './json'
+            },
+            {
+                from: './src/css',
+                to: './css'
             },
         ]),
     ].concat(htmlPlugins),

@@ -6,9 +6,8 @@
   "author": "VaniaFed <ztankist@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --inline --hot --open",
-    "build": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "dev": "webpack-dev-server --mode development --inline --open",
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -30,5 +29,9 @@
     "webpack": "^4.10.2",
     "webpack-cli": "^3.0.1",
     "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "magnific-popup": "^1.1.0"
   }
 }

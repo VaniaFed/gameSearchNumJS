@@ -1,6 +1,15 @@
+import $ from 'jquery';
 'use strict';
 
 window.onload = function () {
+
+    let colors = [
+        '#2196F3',
+        '#009688',
+        '#673AB7',
+        '#333'
+    ];
+
     const randNum = function (min, max) {
         let randNum = min - 0.5 + Math.random() * (max - min + 1);
         randNum = Math.round(randNum);
@@ -22,26 +31,34 @@ window.onload = function () {
 
     const changeStyles = function (el) {
         el.forEach(function (item, i, arr) {
+            console.log(currentLevel);
             if (currentLevel <= 3) {
                 item.style.fontSize = '40px';
                 item.style.padding = '10px 0';
             }
             else if (currentLevel === 4) {
                 item.style.fontSize = '30px';
-                item.style.padding = '12px 0';
+                item.style.padding = '8px 0';
             }
             else if (currentLevel === 5) {
                 item.style.fontSize = '30px';
-                item.style.padding = '15px 0';
+                item.style.padding = '10px 0';
 
             } else {
                 item.style.fontSize = '26px';
-                item.style.padding = '12px 0';
+                item.style.padding = '10px 0';
             }
         });
     };
 
-    const selectAction = function () {
+    const randBgContainer = function () {
+        let container = document.querySelector('.container__work__inner'),
+            numColor = randNum(0, 2);
+
+        container.style.background = colors[numColor];
+    };
+
+    const randomAnimation = function () {
         const animationContent = [
             'scale_element .5s infinite alternate ease-in-out',
             'color_element_blue .5s infinite alternate ease-in-out',
@@ -53,18 +70,12 @@ window.onload = function () {
             'scale_element .5s infinite alternate ease-in-out',
             'scale_element .5s infinite alternate ease-in-out',
             'rotate_element .25s infinite alternate ease-in-out'
-        ],
-        colors = [
-            '#2196F3',
-            '#009688',
-            '#673AB7',
-            '#333'
         ];
+
         let el = document.querySelectorAll('.item__num');
         el.forEach(function(item, i, el) {
             let currentAction = randNum(1, 7);
             switch (currentAction) {
-                //only scale
                 case 1: {
                     item.style.animation = animationContent[0];
                     break;
@@ -195,7 +206,10 @@ window.onload = function () {
 
         let items = document.querySelectorAll('.item__num');
         changeStyles(items);
-        selectAction();
+
+        randBgContainer();
+
+        randomAnimation();
     };
 
     // функция-костыль
@@ -222,26 +236,67 @@ window.onload = function () {
         };
     };
 
+    const modalFinishShow = function() {
+        //document.
+    };
+
     const gameOver = function () {
         let resetNumbers = function () {
             scoreVal = 0;
-            document.querySelector('.score').innerHTML = 'Score: ' + scoreVal;
+            document.querySelector('.score').innerHTML = 'Score: 0';
             currentLevel = 1;
             sizeTable.countColumns = 0;
             sizeTable.countLines = 0;
         };
 
-        //modalFinishShow ();
+
+
+        modalFinishShow ();
+        
         resetNumbers();
+        
+        resizeTable(sizeTable, currentLevel);
+        
+        fillArray(randomNumbers, sizeTable);
+
+        mainNumber = randomNumbers[Math.round(Math.random() * (sizeTable.countColumns * sizeTable.countLines - 1))];
+
+        draw(sizeTable, randomNumbers, mainNumber);
+
+        let items = document.querySelectorAll('.item__num');
+        changeStyles(items);
+        
+        randBgContainer();
+        
+        randomAnimation();
+        
+        // продолжаем следить за нажатиями по элементам
+        followTheTable();
     };
 
     const followTheTimer = function () {
-        let counter = timer(45),
+        let startTime = 45,
+            counter = timer(startTime),
             timerEl = document.querySelector('.timer');
 
+        timerEl.innerHTML = 'Timer: ' + startTime;
         setInterval(function () {
             timerEl.innerHTML = 'Timer: ' + counter(gameOver);
-        }, 1000);
+        }, 100);
+    };
+
+    const hideElement = function(el) {
+        el.style.opacity = 0;
+        el.addEventListener('transitionend', function () {
+            el.style.display = 'none';
+        });
+    };
+    const startGame = function() {
+        let modal_container = document.querySelector('.container__modal__start'),
+            modal_bg = document.querySelector('.modal_bg');
+
+        hideElement(modal_bg);
+        hideElement(modal_container);
     };
 
     let randomNumbers = [],
@@ -252,6 +307,11 @@ window.onload = function () {
             countColumns: 0,
             countLines: 0
         };
+
+    let btn_start = document.querySelector('#start_game');
+
+    btn_start.addEventListener('click', startGame);
+
 
     nextLevel();
 

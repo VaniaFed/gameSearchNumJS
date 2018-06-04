@@ -4,16 +4,18 @@ html
         meta(charset = 'utf-8')
         link(href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,400,500,700,900" rel="stylesheet")
         script(src='index.js')
+        //script(src='jquery.magnific-popup.min.js')
+        link(href='css/normalize.css' rel='stylesheet')
         link(href='css/index.css' rel='stylesheet')
         meta(name='viewport', content="initial-scale=1.0, width=device-width")
-        title Игра найди не число
+        title Игра найди число
         
     body
       .wrapper
         .modal_bg
-        .container__modal.container__modal__end.modal_hide.container__modal__end__db
+        .container__modal.container__modal__end
           .modal__inner
-            h1.modal__inner__head Время не истекло
+            h1.modal__inner__head Время истекло
             p.modal__inner__text#result__cont_game Ваш результат:
             input.modal__inner__button#restart_game(type="button" value="Начать заново")
             
